@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA Music Player</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="music-player">
+            <!-- Загрузка файлов -->
+            <div class="file-upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Перетащите сюда ваши аудио файлы</p>
+                    <input type="file" id="fileInput" multiple accept="audio/*" hidden>
+                    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-plus"></i> Добавить треки
+                    </button>
+                    <div class="upload-stats" id="uploadStats">
+                        <span class="track-count">Треков: 0</span>
+                        <span class="total-duration">Общее время: 0:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кнопка добавления треков (всегда видимая) -->
+            <div class="add-track-section" id="addTrackSection" style="display: none;">
+                <button class="add-track-btn" onclick="document.getElementById('fileInput').click()" title="Добавить ещё треки">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+
+            <!-- Дополнительные элементы управления -->
+            <div class="player-controls" id="playerControls" style="display: none;">
+                <div class="control-panel">
+                    <button class="glass-btn" id="clearPlaylistBtn" title="Очистить плейлист">
+                        <i class="fas fa-trash"></i>
+                        <span>Очистить</span>
+                    </button>
+                    <button class="glass-btn" id="importPlaylistBtn" title="Импорт плейлиста">
+                        <i class="fas fa-upload"></i>
+                        <span>Импорт</span>
+                    </button>
+                </div>
+                <input type="file" id="importInput" accept=".json" hidden>
+            </div>
+
+            <!-- Основной плеер -->
+            <div class="player-main" id="playerMain" style="display: none;">
+                <!-- Обложка альбома -->
+                <div class="album-art">
+                    <img id="albumImage" src="" alt="Album Art">
+                    <div class="album-placeholder" id="albumPlaceholder">
+                        <i class="fas fa-music"></i>
+                    </div>
+                </div>
+
+                <!-- Информация о треке -->
+                <div class="track-info">
+                    <h2 class="track-title" id="trackTitle">Выберите трек</h2>
+                    <p class="artist-name" id="artistName">Неизвестный исполнитель</p>
+                </div>
+
+                <!-- Прогресс бар -->
+                <div class="progress-container">
+                    <span class="current-time" id="currentTime">0:00</span>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress"></div>
+                        <div class="progress-handle" id="progressHandle"></div>
+                    </div>
+                    <span class="total-time" id="totalTime">0:00</span>
+                </div>
+
+                <!-- Элементы управления -->
+                <div class="controls">
+                    <button class="control-btn shuffle-btn" id="shuffleBtn" title="Перемешать">
+                        <i class="fas fa-random"></i>
+                    </button>
+                    <button class="control-btn prev-btn" id="prevBtn" title="Предыдущий">
+                        <i class="fas fa-step-backward"></i>
+                    </button>
+                    <button class="control-btn play-btn" id="playBtn" title="Воспроизвести">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="control-btn next-btn" id="nextBtn" title="Следующий">
+                        <i class="fas fa-step-forward"></i>
+                    </button>
+                    <button class="control-btn repeat-btn" id="repeatBtn" title="Повтор">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
+
+                <!-- Контроль громкости -->
+                <div class="volume-control">
+                    <i class="fas fa-volume-up volume-icon"></i>
+                    <div class="volume-bar">
+                        <div class="volume-progress" id="volumeProgress"></div>
+                        <div class="volume-handle" id="volumeHandle"></div>
+                    </div>
+                    <span class="volume-percent" id="volumePercent">70%</span>
+                </div>
+            </div>
+
+            <!-- Список треков -->
+            <div class="playlist" id="playlist">
+                <div class="playlist-header">
+                    <h3><i class="fas fa-list"></i> Плейлист</h3>
+                    <div class="playlist-controls">
+                        <button class="glass-btn small" id="sortBtn" title="Сортировать">
+                            <i class="fas fa-sort"></i>
+                        </button>
+                        <button class="glass-btn small" id="searchBtn" title="Поиск">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="search-container" id="searchContainer" style="display: none;">
+                    <input type="text" id="searchInput" placeholder="Поиск по названию или исполнителю...">
+                    <button class="glass-btn small" id="clearSearchBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="track-list" id="trackList">
+                    <p class="empty-playlist">Плейлист пуст. Загрузите аудио файлы.</p>
+                </div>
+            </div>
+
+            <!-- Уведомления -->
+            <div class="notifications" id="notifications"></div>
+
+            <!-- Параллакс элементы -->
+            <div class="parallax-container">
+                <div class="parallax-layer layer-1"></div>
+                <div class="parallax-layer layer-2"></div>
+                <div class="parallax-layer layer-3"></div>
+                <div class="parallax-layer layer-4"></div>
+                <div class="parallax-layer layer-5"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
